@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inkeep ROI Calculator — Meeting Prep Agent</title>
+<title>Meeting Prep Cost Calculator</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -226,86 +226,6 @@
     margin-top: 2px;
   }
 
-  .roi-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 1.25rem;
-  }
-
-  .roi-card {
-    border-radius: var(--radius-md);
-    padding: 1.25rem;
-  }
-
-  .roi-spend {
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border);
-  }
-
-  .roi-return {
-    background: var(--blue-light);
-    border: 0.5px solid var(--blue-border);
-  }
-
-  .roi-card .rlabel {
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-
-  .roi-spend .rlabel { color: var(--text-secondary); }
-  .roi-return .rlabel { color: var(--blue-text); }
-
-  .roi-card .rval {
-    font-size: 24px;
-    font-weight: 500;
-  }
-
-  .roi-spend .rval { color: var(--text-primary); }
-  .roi-return .rval { color: var(--blue-text); }
-
-  .roi-card .rsub {
-    font-size: 11px;
-    margin-top: 4px;
-    color: var(--text-tertiary);
-  }
-
-  .vs {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-tertiary);
-    text-align: center;
-  }
-
-  .badge-wrap { text-align: center; }
-
-  .roi-badge {
-    display: inline-block;
-    background: var(--blue);
-    color: #fff;
-    border-radius: var(--radius-md);
-    padding: 12px 32px;
-    font-size: 30px;
-    font-weight: 500;
-    text-align: center;
-  }
-
-  .roi-badge .blabel {
-    font-size: 12px;
-    font-weight: 400;
-    opacity: .85;
-    margin-top: 2px;
-  }
-
-  .footnote {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    margin-top: 1rem;
-    line-height: 1.6;
-  }
-
   .footer {
     text-align: center;
     font-size: 11px;
@@ -315,8 +235,6 @@
   }
 
   @media (max-width: 480px) {
-    .roi-row { grid-template-columns: 1fr; gap: 8px; }
-    .vs { display: none; }
     .metrics { grid-template-columns: 1fr; }
     h1 { font-size: 22px; }
   }
@@ -330,146 +248,18 @@
       <div class="logo-dot"></div>
       <span class="logo-text">Inkeep</span>
     </div>
-    <h1>Meeting Prep Agent — ROI Calculator</h1>
+    <h1>Meeting Prep Cost Calculator</h1>
     <p class="subtitle">Adjust any input. See exactly what prep time costs your team.</p>
   </div>
 
   <div class="card">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('sales',this)">Sales</button>
-      <button class="tab" onclick="switchTab('cs',this)">Customer success</button>
-    </div>
-
-    <!-- SALES -->
-    <div id="sales-panel">
-      <div class="section-label">Your team</div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Avg base salary</div>
-          <div class="slider-val" id="s-base-d">$80k/yr</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">$40k</span>
-          <input type="range" id="s-base" min="40000" max="200000" step="1000" value="80000" oninput="calc()">
-          <span class="slider-bounds right">$200k</span>
-        </div>
-      </div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Meetings per week</div>
-          <div class="slider-val" id="s-meetings-d">5 meetings</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">1</span>
-          <input type="range" id="s-meetings" min="1" max="30" step="1" value="5" oninput="calc()">
-          <span class="slider-bounds right">30</span>
-        </div>
-      </div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Prep time per meeting</div>
-          <div class="slider-val" id="s-prep-d">15 min</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">5m</span>
-          <input type="range" id="s-prep" min="5" max="60" step="1" value="15" oninput="calc()">
-          <span class="slider-bounds right">60m</span>
-        </div>
-      </div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Team size</div>
-          <div class="slider-val" id="s-team-d">50 reps</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">1</span>
-          <input type="range" id="s-team" min="1" max="500" step="1" value="50" oninput="calc()">
-          <span class="slider-bounds right">500</span>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="section-label">Cost of the problem</div>
-      <div class="metrics">
-        <div class="metric">
-          <div class="mlabel">Time lost / week per rep</div>
-          <div class="mval" id="s-wk-min">75 min</div>
-          <div class="msub" id="s-wk-min-sub">15 × 5 meetings</div>
-        </div>
-        <div class="metric">
-          <div class="mlabel">Wasted / week per rep</div>
-          <div class="mval" id="s-wk-cost">$60</div>
-          <div class="msub" id="s-rate-sub">at $48/hr loaded</div>
-        </div>
-        <div class="metric">
-          <div class="mlabel">Wasted / year per rep</div>
-          <div class="mval" id="s-yr-cost">$3,000</div>
-          <div class="msub">base only, not OTE</div>
-        </div>
-        <div class="metric">
-          <div class="mlabel">Total across team</div>
-          <div class="mval" id="s-total-loss">$150,000</div>
-          <div class="msub" id="s-total-loss-sub">50 reps/yr</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="section-label">Inkeep pricing</div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Users on Inkeep</div>
-          <div class="slider-val" id="s-users-d">50 users</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">1</span>
-          <input type="range" id="s-users" min="1" max="500" step="1" value="50" oninput="calc()">
-          <span class="slider-bounds right">500</span>
-        </div>
-      </div>
-
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Price per user / month</div>
-          <div class="slider-val" id="s-ppu-d">$200/mo</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">$150</span>
-          <input type="range" id="s-ppu" min="150" max="250" step="1" value="200" oninput="calc()">
-          <span class="slider-bounds right">$250</span>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="section-label">The return</div>
-      <div class="roi-row">
-        <div class="roi-card roi-spend">
-          <div class="rlabel">What you spend</div>
-          <div class="rval" id="s-spend">$73,800/yr</div>
-          <div class="rsub" id="s-spend-sub">50 users · $123/mo</div>
-        </div>
-        <div class="vs">vs</div>
-        <div class="roi-card roi-return">
-          <div class="rlabel">Labor value recovered</div>
-          <div class="rval" id="s-return">$150,000/yr</div>
-          <div class="rsub" id="s-return-sub">across 50 reps</div>
-        </div>
-      </div>
-      <div class="badge-wrap">
-        <div class="roi-badge">
-          <div id="s-roi-x">2x</div>
-          <div class="blabel">return on investment</div>
-        </div>
-      </div>
-      <div class="footnote" id="s-footnote"></div>
+      <button class="tab active" onclick="switchTab('cs',this)">Customer success</button>
+      <button class="tab" onclick="switchTab('sales',this)">Sales</button>
     </div>
 
     <!-- CS -->
-    <div id="cs-panel" style="display:none">
+    <div id="cs-panel">
       <div class="section-label">Your team</div>
 
       <div class="slider-block">
@@ -544,56 +334,84 @@
           <div class="msub" id="c-total-loss-sub">50 CSMs/yr</div>
         </div>
       </div>
+    </div>
 
-      <div class="divider"></div>
-      <div class="section-label">Inkeep pricing</div>
+    <!-- SALES -->
+    <div id="sales-panel" style="display:none">
+      <div class="section-label">Your team</div>
 
       <div class="slider-block">
         <div class="slider-top">
-          <div class="slider-name">Users on Inkeep</div>
-          <div class="slider-val" id="c-users-d">50 users</div>
+          <div class="slider-name">Avg base salary</div>
+          <div class="slider-val" id="s-base-d">$80k/yr</div>
+        </div>
+        <div class="slider-row">
+          <span class="slider-bounds">$40k</span>
+          <input type="range" id="s-base" min="40000" max="200000" step="1000" value="80000" oninput="calc()">
+          <span class="slider-bounds right">$200k</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-top">
+          <div class="slider-name">Meetings per week</div>
+          <div class="slider-val" id="s-meetings-d">5 meetings</div>
         </div>
         <div class="slider-row">
           <span class="slider-bounds">1</span>
-          <input type="range" id="c-users" min="1" max="500" step="1" value="50" oninput="calc()">
+          <input type="range" id="s-meetings" min="1" max="30" step="1" value="5" oninput="calc()">
+          <span class="slider-bounds right">30</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-top">
+          <div class="slider-name">Prep time per meeting</div>
+          <div class="slider-val" id="s-prep-d">15 min</div>
+        </div>
+        <div class="slider-row">
+          <span class="slider-bounds">5m</span>
+          <input type="range" id="s-prep" min="5" max="60" step="1" value="15" oninput="calc()">
+          <span class="slider-bounds right">60m</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-top">
+          <div class="slider-name">Team size</div>
+          <div class="slider-val" id="s-team-d">50 reps</div>
+        </div>
+        <div class="slider-row">
+          <span class="slider-bounds">1</span>
+          <input type="range" id="s-team" min="1" max="500" step="1" value="50" oninput="calc()">
           <span class="slider-bounds right">500</span>
         </div>
       </div>
 
-      <div class="slider-block">
-        <div class="slider-top">
-          <div class="slider-name">Price per user / month</div>
-          <div class="slider-val" id="c-ppu-d">$200/mo</div>
-        </div>
-        <div class="slider-row">
-          <span class="slider-bounds">$150</span>
-          <input type="range" id="c-ppu" min="150" max="250" step="1" value="200" oninput="calc()">
-          <span class="slider-bounds right">$250</span>
-        </div>
-      </div>
-
       <div class="divider"></div>
-      <div class="section-label">The return</div>
-      <div class="roi-row">
-        <div class="roi-card roi-spend">
-          <div class="rlabel">What you spend</div>
-          <div class="rval" id="c-spend">$73,800/yr</div>
-          <div class="rsub" id="c-spend-sub">50 users · $123/mo</div>
+      <div class="section-label">Cost of the problem</div>
+      <div class="metrics">
+        <div class="metric">
+          <div class="mlabel">Time lost / week per rep</div>
+          <div class="mval" id="s-wk-min">75 min</div>
+          <div class="msub" id="s-wk-min-sub">15 × 5 meetings</div>
         </div>
-        <div class="vs">vs</div>
-        <div class="roi-card roi-return">
-          <div class="rlabel">Labor value recovered</div>
-          <div class="rval" id="c-return">$562,500/yr</div>
-          <div class="rsub" id="c-return-sub">across 50 CSMs</div>
+        <div class="metric">
+          <div class="mlabel">Wasted / week per rep</div>
+          <div class="mval" id="s-wk-cost">$60</div>
+          <div class="msub" id="s-rate-sub">at $48/hr loaded</div>
+        </div>
+        <div class="metric">
+          <div class="mlabel">Wasted / year per rep</div>
+          <div class="mval" id="s-yr-cost">$3,000</div>
+          <div class="msub">base only, not OTE</div>
+        </div>
+        <div class="metric">
+          <div class="mlabel">Total across team</div>
+          <div class="mval" id="s-total-loss">$150,000</div>
+          <div class="msub" id="s-total-loss-sub">50 reps/yr</div>
         </div>
       </div>
-      <div class="badge-wrap">
-        <div class="roi-badge">
-          <div id="c-roi-x">8x</div>
-          <div class="blabel">return on investment</div>
-        </div>
-      </div>
-      <div class="footnote" id="c-footnote"></div>
     </div>
   </div>
 
@@ -601,10 +419,9 @@
 </div>
 
 <script>
-var activeTab = 'sales';
+var activeTab = 'cs';
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
-function fmtx(n) { return Math.round(n) + 'x'; }
 
 function switchTab(tab, btn) {
   activeTab = tab;
@@ -623,17 +440,13 @@ function calc() {
     var meetings = parseFloat(document.getElementById(p + '-meetings').value) || 0;
     var prep = parseFloat(document.getElementById(p + '-prep').value) || 0;
     var team = parseFloat(document.getElementById(p + '-team').value) || 0;
-    var users = parseFloat(document.getElementById(p + '-users').value) || 0;
-    var ppu = parseFloat(document.getElementById(p + '-ppu').value) || 0;
 
-    var annualCost = users * ppu * 12;
     var rate = (base * 1.25) / 2080;
     var wkMin = prep * meetings;
     var wkHrs = wkMin / 60;
     var wkCost = wkHrs * rate;
     var yrCost = wkCost * 50;
-    var totalReturn = yrCost * team;
-    var roi = annualCost > 0 ? totalReturn / annualCost : 0;
+    var totalLoss = yrCost * team;
 
     var dispMin = wkMin >= 90 ? (wkHrs.toFixed(1) + ' hrs') : (Math.round(wkMin) + ' min');
     var prefix = tab === 'cs' ? '~' : '';
@@ -642,28 +455,14 @@ function calc() {
     document.getElementById(p + '-meetings-d').textContent = Math.round(meetings) + ' meetings';
     document.getElementById(p + '-prep-d').textContent = Math.round(prep) + ' min';
     document.getElementById(p + '-team-d').textContent = Math.round(team) + ' ' + role + 's';
-    document.getElementById(p + '-users-d').textContent = Math.round(users) + ' users';
-    document.getElementById(p + '-ppu-d').textContent = '$' + Math.round(ppu) + '/mo';
 
     document.getElementById(p + '-wk-min').textContent = prefix + dispMin;
     document.getElementById(p + '-wk-min-sub').textContent = prep + ' × ' + meetings + ' meetings';
     document.getElementById(p + '-wk-cost').textContent = fmt(wkCost);
     document.getElementById(p + '-rate-sub').textContent = 'at ' + prefix + '$' + Math.round(rate) + '/hr loaded';
     document.getElementById(p + '-yr-cost').textContent = fmt(yrCost);
-    document.getElementById(p + '-total-loss').textContent = fmt(totalReturn);
+    document.getElementById(p + '-total-loss').textContent = fmt(totalLoss);
     document.getElementById(p + '-total-loss-sub').textContent = Math.round(team) + ' ' + role + 's/yr';
-
-    document.getElementById(p + '-spend').textContent = fmt(annualCost) + '/yr';
-    document.getElementById(p + '-spend-sub').textContent = Math.round(users) + ' users · $' + Math.round(ppu) + '/mo';
-    document.getElementById(p + '-return').textContent = fmt(totalReturn) + '/yr';
-    document.getElementById(p + '-return-sub').textContent = 'across ' + Math.round(team) + ' ' + role + 's';
-    document.getElementById(p + '-roi-x').textContent = roi >= 1 ? fmtx(roi) : roi.toFixed(1) + 'x';
-
-    var halfRoi = Math.round(roi / 2);
-    var halfNote = 'at half savings: ' + fmt(totalReturn / 2) + (halfRoi >= 2 ? ', still ' + halfRoi + 'x' : '');
-    var surveyNote = tab === 'cs' ? ' Survey: 20 PromptEMR CSMs, March 2026.' : '';
-    document.getElementById(p + '-footnote').textContent =
-      Math.round(team) + ' ' + role + 's × ' + fmt(yrCost) + '/yr = ' + fmt(totalReturn) + ' recoverable. Inkeep: ' + fmt(annualCost) + '/yr (' + Math.round(users) + ' users at $' + Math.round(ppu) + '/mo). ' + halfNote + '. Base salary only, not OTE.' + surveyNote;
   });
 }
 
